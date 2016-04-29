@@ -22,15 +22,12 @@ GUIAnalizadorLexicoRuby.MostrarError(texto, lexema,linea,colum);
 /*-*
 * Ajustes regulares
 */
-
-
-
 CADENA= \"[^\"]*\"
 CADENA2=\'[^\']*\'
 VARIABLE_GLOBAL= "$"[a-z|A-Z][a-z|A-Z|0-9|"_"]{0,9}
 VARIABLE_INSTANCIA="@"[a-z|A-Z][a-z|A-Z|0-9|"_"]{0,9}
 VARIABLE_LOCAL= [a-z|A-Z][a-z|A-Z|0-9|"_"]{0,9}
-CONSTANTE= [A-Z]+[0-9|"_"]{0,9}
+CONSTANTE= [A-Z]+[0-9|"_"|A-Z]{0,9}
 ENTERO = 0|([1-9][0-9]*)|("-"[1-9][0-9]*)
 DECIMAL = (("-"[1-9][0-9]*)|([1-9][0-9]*))"."[0-9]+
 DEF=[d][e][f]
@@ -62,7 +59,6 @@ PRINT =[p][r][i][n][t]
 DEFINED = [d][e][f][i][n][e][d] 
 CHOMP=[c][h][o][m][p]
 GET=[g][e][t]
-IN=[i][n]
 CASE=[c][a][s][e]
 WHEN=[w][h][e][n]
 END=[e][n][d]
@@ -76,22 +72,23 @@ NEXT=[n][e][x][t]
 REDO=[r][e][d][o]
 FOR=[f][o][r]
 EACH=[e][a][c][h]
-
-
-BLANCO=[\n| |\t] 
+LOGICO=[a][n][d]
+BLANCO=[ ] 
+TABULADOR=[\t]
+SALTO=[\n]
 INICIO_ARREGLO="["
 FIN_ARREGLO="]"
 PARENTESIS="("|")"
-COMENTARIO="#"
+COMENTARIO=[#]+[a-z|A-Z|0-9|"_"]+
 COMA=","
 DOS_PUNTOS=".."
-
 RELACIONAL= ("=="|"<"|">"|"<="|">="|"!=")
-LOGICO=[a][n][d]|[o][r]|[n][o][t]
+
 ALGEBRAICO=("+"|"-"|"*"|"/"|"^"|"%"|"=")
-
 %%
-
+"and" {imprimir("Declaracion and",yytext());}
+"or" {imprimir("Declaracion or",yytext());}
+"not" {imprimir("Declaracion or",yytext());}
 {DEF} {imprimir("Declaracion def",yytext());}
 {YIELD} {imprimir("Declaracion yield",yytext());}
 {UNDEF} {imprimir("Declaracion undef",yytext());}
@@ -134,24 +131,26 @@ ALGEBRAICO=("+"|"-"|"*"|"/"|"^"|"%"|"=")
 {REDO} {imprimir("Reinicio de iteración",yytext());}
 {FOR} {imprimir("Control FOR",yytext());}
 {EACH} {imprimir("Control EACH",yytext());}
-{BLANCO} { imprimir("blanco", yytext()); }
+{BLANCO} { imprimir("Espacio en blanco", yytext()); }
+{TABULADOR} { imprimir("Tabulacion", yytext()); }
+{SALTO} { imprimir("Salto de linea", yytext()); }
 {INICIO_ARREGLO} { imprimir("inicio arreglo ", yytext()); }
 {FIN_ARREGLO} { imprimir("fin arreglo ", yytext()); }
 {PARENTESIS} { imprimir("parentesis ", yytext()); }
 {COMENTARIO} { imprimir("comentario ", yytext()); }
-{COMA} { imprimir("concatenación ",yytext());}
-{DOS_PUNTOS} { imprimir("..",yytext());}
-{CONSTANTE} {imprimir("Constante",yytext());}
-{VARIABLE_GLOBAL} {imprimir("Variable Global",yytext());}
-{VARIABLE_LOCAL} {imprimir("Variable Local",yytext());}
-{VARIABLE_INSTANCIA} {imprimir("Variable de Instancia",yytext());}
-{ENTERO} {imprimir("Entero",yytext());}
-{DECIMAL} {imprimir("Decimal",yytext());}
-{CADENA} {imprimir("Cadena",yytext());}
-{CADENA2} {imprimir("Cadena",yytext());}
-{RELACIONAL} {imprimir("Operador de relacion",yytext());}
-{LOGICO} {imprimir("Operador Logico",yytext());}
-{ALGEBRAICO} {imprimir("Operador algebraico",yytext());}
+{COMA} { imprimir("concatenación ",yytext()); }
+{DOS_PUNTOS} { imprimir("..",yytext()); }
+{CONSTANTE} {imprimir("Constante",yytext()); }
+{VARIABLE_GLOBAL} {imprimir("Variable Global",yytext()); }
+{VARIABLE_LOCAL} {imprimir("Variable Local",yytext()); }
+{VARIABLE_INSTANCIA} {imprimir("Variable de Instancia",yytext()); }
+{ENTERO} {imprimir("Entero",yytext()); }
+{DECIMAL} {imprimir("Decimal",yytext()); }
+{CADENA} {imprimir("Cadena",yytext()); }
+{CADENA2} {imprimir("Cadena",yytext()); }
+{RELACIONAL} {imprimir("Operador de relacion",yytext()); }
+{LOGICO} {imprimir("Operador Logico",yytext()); }
+{ALGEBRAICO} {imprimir("Operador algebraico",yytext()); }
 
 
 /*. { mandar_error("Caracter invalido",yytext(),""+yyline,""+yycolumn);}*/
