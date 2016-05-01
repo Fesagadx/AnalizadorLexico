@@ -6,12 +6,15 @@ import java_cup.runtime.*;
 * funciones y variables
 */
 private void imprimir(String descripcion, String lexema) {
-/*GUIAnalizadorLexicoRuby.Anadir(descripcion, lexema); */
+
+GUIAnalizadorLexicoRuby.Anadir(descripcion, lexema);
 System.out.println(lexema + " - " + descripcion);
 }
-/*private void mandar_error(String texto, String lexema,String linea, String colum) {
+
+private void mandar_error(String texto, String lexema,String linea, String colum) {
 GUIAnalizadorLexicoRuby.MostrarError(texto, lexema,linea,colum);
-}*/
+}
+
 %}
 /*-* 
 * Información sobre la clase generada
@@ -155,6 +158,6 @@ ALGEBRAICO=("+"|"-"|"*"|"/"|"^"|"%"|"=")
 
 /*. { mandar_error("Caracter invalido",yytext(),""+yyline,""+yycolumn);}*/
 
-. { throw new RuntimeException("Caracter invalido \""+yytext() +
-"\" en la linea "+yyline+", columna "+yycolumn); }
+/*. { throw new RuntimeException("Caracter invalido \""+yytext() +
+"\" en la linea "+yyline+", columna "+yycolumn); } */
 
